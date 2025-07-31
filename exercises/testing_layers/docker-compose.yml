@@ -2,7 +2,7 @@ services:
   dev-server:
     build: .
     ports:
-      - "3003:3001"
+      - "3001:3001"
     volumes:
       - "./src:/app/src"
       - "./pom.xml:/app/pom.xml"
