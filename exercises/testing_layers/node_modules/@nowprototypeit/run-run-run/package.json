@@ -1,0 +1,36 @@
+{
+  "name": "run-run-run",
+  "version": "0.0.1",
+  "description": "A file watcher that runs multiple layers of tests.",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "run-run-run": "bin/run.js"
+  },
+  "scripts": {
+    "lint": "standard",
+    "lint:fix": "standard --fix"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nowprototypeit/run-run-run.git"
+  },
+  "keywords": [
+    "test",
+    "watcher",
+    "tdd"
+  ],
+  "author": "Natalie Carey <natalie@nowprototype.it>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nowprototypeit/run-run-run/issues"
+  },
+  "homepage": "https://github.com/nowprototypeit/run-run-ruun#readme",
+  "dependencies": {
+    "chokidar": "^4.0.3",
+    "commander": "^14.0.0"
+  },
+  "devDependencies": {
+    "standard": "^17.1.2"
+  }
+}

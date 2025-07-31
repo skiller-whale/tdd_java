@@ -1,0 +1,24 @@
+services:
+  dev-server:
+    build: .
+    ports:
+      - "3003:3001"
+    volumes:
+      - "./src:/app/src"
+      - "./pom.xml:/app/pom.xml"
+      - "./package.json:/app/package.json"
+      - "~/.m2:/root/.m2"
+    working_dir: /app
+    command: ["watchexec", "--watch", "src", "--exts", "java", "--restart", "mvn compile exec:java -Dexec.mainClass=com.skillerwhale.wordle.WordleApplication"]
+    init: true # to ensure signal handling works (and you can kill the container with ctrl-c)
+  tests:
+    build: .
+    volumes:
+      - "./src:/app/src"
+      - "./pom.xml:/app/pom.xml"
+      - "./package.json:/app/package.json"
+      - "./run-tests.sh:/app/run-tests.sh"
+      - "~/.m2:/root/.m2"
+    working_dir: /app
+    command: ["./run-tests.sh"]
+    init: true # to ensure signal handling works (and you can kill the container with ctrl-c)
