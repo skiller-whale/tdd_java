@@ -10,38 +10,42 @@ public class GuessesFeedback {
         html.append("<div class=\"guesses\">\n");
 
         for (int i = 0; i < 6; i++) {
-            html.append("    <div class=\"guess\">\n");
-
             if (i < guesses.size()) {
-                // Show actual guess
-                String guess = guesses.get(i);
-
-                for (int j = 0; j < guess.length(); j++) {
-                    char letter = guess.charAt(j);
-                    String color = "gray";
-
-                    html.append("        <span class=\"").append(color).append("\">")
-                        .append(Character.toUpperCase(letter)).append("</span>\n");
-                }
+                html.append(renderGuessFeedback(guesses.get(i)));
             } else {
                 // Show empty placeholder row
-                for (int j = 0; j < 5; j++) {
-                    html.append("        <span class=\"empty\"></span>\n");
-                }
+                html.append(renderEmptyGuess());
             }
-
-            html.append("    </div>\n");
         }
 
         html.append("</div>\n");
         return html.toString();
     }
 
-    private static List<String> getDefaultColors(int length) {
-        List<String> colors = new ArrayList<>();
-        for (int i = 0; i < length; i++) {
-            colors.add("gray");
+    public static String renderEmptyGuess() {
+        return "<div class=\"guess\">\n" +
+               "    <span class=\"empty\"></span>\n" +
+               "    <span class=\"empty\"></span>\n" +
+               "    <span class=\"empty\"></span>\n" +
+               "    <span class=\"empty\"></span>\n" +
+               "    <span class=\"empty\"></span>\n" +
+               "</div>\n";
+    }
+
+    public static String renderGuessFeedback(String guess) {
+        StringBuilder html = new StringBuilder();
+        html.append("<div class=\"guess\">\n");
+
+        for (int j = 0; j < guess.length(); j++) {
+            char letter = guess.charAt(j);
+            html.append(String.format(
+                "<span class=\"%s\">%s</span>\n",
+                "grey",
+                Character.toUpperCase(letter))
+            );
         }
-        return colors;
+
+        html.append("</div>\n");
+        return html.toString();
     }
 }
