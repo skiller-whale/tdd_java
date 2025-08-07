@@ -7,6 +7,7 @@ import com.skillerwhale.wordle.helpers.TestServer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.AfterAll;
 
@@ -125,7 +126,7 @@ class GameTest {
     }
 
     @Test
-    @org.junit.jupiter.api.Disabled("TODO: implement test")
+    @Disabled("TODO: implement test")
     void shouldShowErrorMessageForInvalidGuesses() {
         // arrange
         browser.visit("/");
@@ -138,7 +139,7 @@ class GameTest {
     }
 
     @Test
-    @org.junit.jupiter.api.Disabled("TODO: implement test")
+    @Disabled("TODO: implement test")
     void shouldShowColourCodedFeedbackForPreviousGuesses() {
         // arrange
         browser.visit("/");

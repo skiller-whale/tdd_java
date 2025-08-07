@@ -2,6 +2,7 @@ package com.skillerwhale.wordle;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.AfterAll;
 
 import java.io.IOException;
@@ -113,13 +114,13 @@ class WordleControllerTest {
     }
 
     @Test
-    @org.junit.jupiter.api.Disabled("TODO: implement test")
+    @Disabled("TODO: implement test")
     void shouldRedirectWithGuessNotAddedToUrlAfterInvalidGuess() throws Exception {
         // TODO
     }
 
     @Test
-    @org.junit.jupiter.api.Disabled("TODO: implement test")
+    @Disabled("TODO: implement test")
     void shouldRedirectWithErrorMessageAddedToUrlAfterInvalidGuess() throws Exception {
         // TODO
         // Note: The redirected url should include a query parameter like
