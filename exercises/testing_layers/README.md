@@ -37,7 +37,7 @@ src/
 ```bash
 # Run development server
 docker compose up dev-server
-# ➡️ Game at http://localhost:3009
+# ➡️ Game at http://localhost:3001
 
 # Run layered tests with file watching
 docker compose run tests
