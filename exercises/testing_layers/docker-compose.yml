@@ -5,7 +5,6 @@ services:
       - "3001:3001"
     volumes:
       - "./src:/app/src"
-      - "./gradle.build:/app/gradle.build"
       - "~/.m2:/root/.m2"
     working_dir: /app
     command: ["watchexec", "--watch", "src", "--exts", "java", "--restart", "gradle run"]
@@ -14,7 +13,6 @@ services:
     build: .
     volumes:
       - "./src:/app/src"
-      - "./gradle.build:/app/gradle.build"
       - "~/.m2:/root/.m2"
     working_dir: /app
     command: gradle test --continuous
