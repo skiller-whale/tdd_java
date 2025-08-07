@@ -5,20 +5,17 @@ services:
       - "3001:3001"
     volumes:
       - "./src:/app/src"
-      - "./pom.xml:/app/pom.xml"
-      - "./package.json:/app/package.json"
+      - "./gradle.build:/app/gradle.build"
       - "~/.m2:/root/.m2"
     working_dir: /app
-    command: ["watchexec", "--watch", "src", "--exts", "java", "--restart", "mvn compile exec:java -Dexec.mainClass=com.skillerwhale.wordle.WordleApplication"]
+    command: ["watchexec", "--watch", "src", "--exts", "java", "--restart", "gradle run"]
     init: true # to ensure signal handling works (and you can kill the container with ctrl-c)
   tests:
     build: .
     volumes:
       - "./src:/app/src"
-      - "./pom.xml:/app/pom.xml"
-      - "./package.json:/app/package.json"
-      - "./run-tests.sh:/app/run-tests.sh"
+      - "./gradle.build:/app/gradle.build"
       - "~/.m2:/root/.m2"
     working_dir: /app
-    command: ["./run-tests.sh"]
+    command: gradle test --continuous
     init: true # to ensure signal handling works (and you can kill the container with ctrl-c)

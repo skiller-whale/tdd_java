@@ -1,5 +1,6 @@
 package com.skillerwhale.wordle.core;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
@@ -12,19 +13,19 @@ class ValidateGuessTest {
     }
 
     @Test
-    @org.junit.jupiter.api.Disabled("TODO: implement test")
+    @Disabled("TODO: implement test")
     void shouldReturnError_WhenGuessIsTooShort() {
         // TODO
     }
 
     @Test
-    @org.junit.jupiter.api.Disabled("TODO: implement test")
+    @Disabled("TODO: implement test")
     void shouldReturnError_WhenGuessIsTooLong() {
         // TODO
     }
 
     @Test
-    @org.junit.jupiter.api.Disabled("TODO: implement test")
+    @Disabled("TODO: implement test")
     void shouldReturnError_WhenWordIsNotInDictionary() {
         // TODO
     }
