@@ -1,6 +1,6 @@
-# Testing Layers - Java Wordle Exercise
+# Test Doubles - Java Wordle Exercise
 
-Java implementation of Wordle demonstrating TDD at different layers. The answer is always "whale".
+Java implementation of Wordle to demonstrate the use of test doubles in TDD.
 
 
 ## Quick Start
