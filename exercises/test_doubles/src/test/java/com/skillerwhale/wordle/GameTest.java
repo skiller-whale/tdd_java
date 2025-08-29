@@ -20,8 +20,7 @@ import org.htmlunit.html.HtmlPage;
 class GameTest {
 
     private static TestServer server;
-
-    private Browser browser;
+    private static Browser browser;
 
     @BeforeAll
     static void setup() throws Exception {
@@ -29,6 +28,7 @@ class GameTest {
         Database database = new Database();
         server = new TestServer(database);
         server.start();
+        browser = new Browser(server.getBaseUrl());
     }
 
     @AfterAll
@@ -36,16 +36,6 @@ class GameTest {
         if (server != null) {
             server.close();
         }
-    }
-
-    @BeforeEach
-    void createBrowser() {
-        // Create new browser helper for each test
-        browser = new Browser(server.getBaseUrl());
-    }
-
-    @AfterEach
-    void closeBrowser() {
         if (browser != null) {
             browser.close();
         }
