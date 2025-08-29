@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.skillerwhale'
 version = '1.0.0'
-description = 'Testing at different layers exercise'
+description = 'Test doubles exercise'
 
 repositories {
     mavenCentral()
@@ -17,9 +17,16 @@ ext {
     htmlUnitVersion = '4.15.0'
 }
 
+ configurations {
+    mockitoAgent
+ }
+
 dependencies {
     implementation "org.xerial:sqlite-jdbc:3.44.1.0"
     testImplementation "org.htmlunit:htmlunit:${htmlUnitVersion}"
+    testImplementation "org.mockito:mockito-core:5.+"
+    testImplementation "org.mockito:mockito-junit-jupiter:5+"
+    mockitoAgent("org.mockito:mockito-core:5.+") { transitive = false }
 }
 
 testing {
@@ -29,8 +36,6 @@ testing {
             dependencies {
                 implementation "org.junit.jupiter:junit-jupiter:${junitVersion}"
                 implementation "org.assertj:assertj-core:3.24.2"
-                implementation "org.mockito:mockito-core:5.19.0"
-                implementation "org.mockito:mockito-junit-jupiter:5.19.0"
                 implementation "org.slf4j:slf4j-simple:2.0.17"
             }
 
@@ -58,6 +63,12 @@ testing {
                 }
             }
         }
+    }
+}
+
+tasks {
+    test {
+        jvmArgs += "-javaagent:${configurations.mockitoAgent.asPath}"
     }
 }
 
