@@ -1,18 +1,27 @@
 package com.skillerwhale.wordle.helpers;
 
-import com.microsoft.playwright.*;
+import java.io.IOException;
+
+import org.htmlunit.ElementNotFoundException;
+import org.htmlunit.WebClient;
+import org.htmlunit.html.DomNode;
+import org.htmlunit.html.HtmlButton;
+import org.htmlunit.html.HtmlElement;
+import org.htmlunit.html.HtmlPage;
+import org.htmlunit.html.HtmlTextInput;
 
 /**
  * Browser helper class that provides domain-specific methods for testing the Wordle game.
- * This abstracts away Playwright complexity and provides a more readable test API.
+ * This abstracts away HtmlUnit complexity and provides a more readable test API.
  */
 public class Browser implements AutoCloseable {
 
-    private final Page page;
+    private final WebClient webClient;
+    private HtmlPage currentPage;
     private final String baseUrl;
 
-    public Browser(Page page, String baseUrl) {
-        this.page = page;
+    public Browser(String baseUrl) {
+        this.webClient = new WebClient();
         this.baseUrl = baseUrl;
     }
 
@@ -20,33 +29,37 @@ public class Browser implements AutoCloseable {
      * Navigate to a path relative to the base URL.
      * @param path The path to navigate to (e.g., "/", "/?guesses=whale")
      */
-    public void visit(String path) {
+    public void visit(String path) throws Exception {
         String url = path.startsWith("/") ? baseUrl + path : path;
-        page.navigate(url);
+        currentPage = webClient.getPage(url);
     }
 
     /**
      * Enter a guess into the game form and submit it.
      * @param guess The word to guess
+     * @throws IOException
+     * @throws ElementNotFoundException
      */
-    public void enterGuess(String guess) {
-        Locator input = page.locator("input[name='latestGuess']");
-        Locator submitButton = page.locator("button[type='submit']");
+    public void enterGuess(String guess) throws ElementNotFoundException, IOException {
+        HtmlTextInput latestGuessInput = currentPage.getElementByName("latestGuess");
+        if (latestGuessInput == null) {
+            throw new RuntimeException("Latest Guess input not found on page");
+        }
+        latestGuessInput.setAttribute("value", guess);
 
-        input.clear();
-        input.fill(guess);
-
-        page.waitForNavigation(() -> {
-            submitButton.click();
-        });
+        HtmlButton submitButton = currentPage.getElementByName("submit");
+        if (submitButton == null) {
+            throw new RuntimeException("Submit button not found on page");
+        }
+        currentPage = submitButton.click();
     }
 
-    public void clickNewGameButton() {
-        Locator button = page.locator("button[type='submit']");
-        // Wait for the text entry form to appear
-        page.waitForNavigation(() -> {
-            button.click();
-        });
+    public void clickNewGameButton() throws IOException {
+        HtmlElement newGameButton = currentPage.querySelector("button[type='submit']");
+        if (newGameButton == null) {
+            throw new RuntimeException("New Game button not found on page");
+        }
+        currentPage = newGameButton.click();
     }
 
     /**
@@ -54,11 +67,11 @@ public class Browser implements AutoCloseable {
      * @return The status text (e.g., "Keep guessing!", "Congratulations! You won!")
      */
     public String getStatus() {
-        Locator statusElement = page.locator(".status");
-        if (statusElement.count() == 0) {
-            throw new RuntimeException("Status element not found on page");
+        HtmlElement statusElement = currentPage.querySelector(".status");
+        if (statusElement == null) {
+            return null;
         }
-        return statusElement.textContent().trim();
+        return statusElement.getTextContent().trim();
     }
 
     /**
@@ -66,11 +79,11 @@ public class Browser implements AutoCloseable {
      * @return The error message text, or null if no error is displayed
      */
     public String getError() {
-        Locator errorElement = page.locator(".error");
-        if (errorElement.count() == 0) {
+        HtmlElement errorElement = currentPage.querySelector(".error");
+        if (errorElement == null) {
             return null;
         }
-        return errorElement.textContent().trim();
+        return errorElement.getTextContent().trim();
     }
 
     /**
@@ -78,7 +91,7 @@ public class Browser implements AutoCloseable {
      * @return true if the form is present, false otherwise
      */
     public boolean hasForm() {
-        return page.locator("form").count() > 0;
+        return currentPage.querySelector("form") != null;
     }
 
     /**
@@ -86,11 +99,11 @@ public class Browser implements AutoCloseable {
      * @return The page title text
      */
     public String getTitle() {
-        Locator titleElement = page.locator("h1");
-        if (titleElement.count() == 0) {
+        HtmlElement titleElement = currentPage.querySelector("h1");
+        if (titleElement == null) {
             throw new RuntimeException("Title element not found on page");
         }
-        return titleElement.textContent().trim();
+        return titleElement.getTextContent().trim();
     }
 
     /**
@@ -98,11 +111,11 @@ public class Browser implements AutoCloseable {
      * @return The correct answer text
      */
     public String getCorrectAnswer() {
-        Locator correctAnswerElement = page.locator(".correct-answer");
-        if (correctAnswerElement.count() == 0) {
+        HtmlElement correctAnswerElement = currentPage.querySelector(".correct-answer");
+        if (correctAnswerElement == null) {
             throw new RuntimeException("Correct answer element not found on page");
         }
-        return correctAnswerElement.textContent().trim();
+        return correctAnswerElement.getTextContent().trim();
     }
 
     /**
@@ -113,15 +126,12 @@ public class Browser implements AutoCloseable {
      * @return The CSS class of the character span element
      */
     public String getGuessCharClass(int guessIndex, int charIndex) {
-        Locator guessElement = page.locator(".guess").nth(guessIndex);
-        Locator charElement = guessElement.locator("span").nth(charIndex);
-
-        if (charElement.count() == 0) {
+        DomNode guessElement = currentPage.querySelectorAll(".guess").get(guessIndex);
+        DomNode charElement = guessElement.querySelectorAll("span").get(charIndex);
+        if (charElement == null) {
             throw new RuntimeException("Character element not found at guess " + guessIndex + ", char " + charIndex);
         }
-
-        String className = charElement.getAttribute("class");
-        return className != null ? className.trim() : "";
+        return charElement.getAttributes().getNamedItem("class").getNodeValue();
     }
 
     /**
@@ -131,14 +141,12 @@ public class Browser implements AutoCloseable {
      * @return The character text
      */
     public String getGuessChar(int guessIndex, int charIndex) {
-        Locator guessElement = page.locator(".guess").nth(guessIndex);
-        Locator charElement = guessElement.locator("span").nth(charIndex);
-
-        if (charElement.count() == 0) {
+        DomNode guessElement = currentPage.querySelectorAll(".guess").get(guessIndex);
+        DomNode charElement = guessElement.querySelectorAll("span").get(charIndex);
+        if (charElement == null) {
             throw new RuntimeException("Character element not found at guess " + guessIndex + ", char " + charIndex);
         }
-
-        return charElement.textContent().trim();
+        return charElement.getTextContent().trim();
     }
 
     /**
@@ -146,11 +154,11 @@ public class Browser implements AutoCloseable {
      * @return The stats text (e.g., "Games won: 2, Games lost: 3, Total played: 5")
      */
     public String getStats() {
-        Locator statsElement = page.locator(".stats");
-        if (statsElement.count() == 0) {
+        DomNode statsElement = currentPage.querySelector(".stats");
+        if (statsElement == null) {
             throw new RuntimeException("Stats element not found on page");
         }
-        return statsElement.textContent().trim();
+        return statsElement.getTextContent().trim();
     }
 
     /**
@@ -161,17 +169,9 @@ public class Browser implements AutoCloseable {
     public int getGuessCount() {
         // Count guess rows that contain spans without the "empty" class
         // Empty rows have spans with class="empty", filled rows have spans with letters
-        int count = 0;
-        Locator guesses = page.locator(".guess");
-        for (int i = 0; i < guesses.count(); i++) {
-            Locator guessRow = guesses.nth(i);
-            // Check if this row has any spans that are not empty
-            Locator nonEmptySpans = guessRow.locator("span:not(.empty)");
-            if (nonEmptySpans.count() > 0) {
-                count++;
-            }
-        }
-        return count;
+        var countGuessRows = currentPage.querySelectorAll(".guess").size();
+        var countEmptyRows = currentPage.querySelectorAll(".empty").size();
+        return countGuessRows - countEmptyRows;
     }
 
     /**
@@ -180,13 +180,13 @@ public class Browser implements AutoCloseable {
      * @return true if the text is found, false otherwise
      */
     public boolean containsText(String text) {
-        return page.locator("body").textContent().contains(text);
+        return currentPage.querySelector("body").getTextContent().contains(text);
     }
 
     @Override
     public void close() {
-        if (page != null) {
-            page.close();
+        if (currentPage != null) {
+            currentPage = null;
         }
     }
 }

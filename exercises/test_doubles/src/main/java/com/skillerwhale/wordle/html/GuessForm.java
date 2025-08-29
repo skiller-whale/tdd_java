@@ -5,7 +5,7 @@ public class GuessForm {
         return String.format("""
             <form method="post" action="/games/%s">
                 <input type="text" name="latestGuess" placeholder="Enter your guess" required>
-                <button type="submit">Submit Guess</button>
+                <button type="submit" name="submit">Submit Guess</button>
             </form>
         """, gameId);
     }

@@ -2,6 +2,10 @@ package com.skillerwhale.wordle.core;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.net.URLEncoder;
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.UUID;
 
 public class GameState {
