@@ -117,7 +117,7 @@ public class WordleController {
 
     // POST / - Create new game
     private void handleHomePost(HttpExchange exchange) throws IOException {
-        String correctAnswer = answerGenerator.getRandomAnswer();
+        String correctAnswer = "whale"; // To be replaced with a call to AnswerGenerator later
         GameState game = new GameState(correctAnswer);
         gameRepository.saveGame(game);
         sendRedirect(exchange, "/games/" + game.getId());

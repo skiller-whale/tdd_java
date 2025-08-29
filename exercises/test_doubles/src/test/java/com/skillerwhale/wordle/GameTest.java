@@ -1,8 +1,8 @@
 package com.skillerwhale.wordle;
 
-import com.microsoft.playwright.*;
 import com.skillerwhale.wordle.helpers.Browser;
 import com.skillerwhale.wordle.helpers.TestServer;
+import com.skillerwhale.wordle.Database;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeAll;
@@ -13,12 +13,13 @@ import org.junit.jupiter.api.AfterAll;
 import static com.skillerwhale.wordle.helpers.GameAssertions.*;
 import static org.assertj.core.api.Assertions.*;
 
+import org.htmlunit.Page;
+import org.htmlunit.WebClient;
+import org.htmlunit.html.HtmlPage;
+
 class GameTest {
 
     private static TestServer server;
-    private static Playwright playwright;
-    private static com.microsoft.playwright.Browser playwrightBrowser;
-    private static BrowserContext context;
 
     private Browser browser;
 
@@ -28,26 +29,10 @@ class GameTest {
         Database database = new Database();
         server = new TestServer(database);
         server.start();
-
-        // Launch browser and create context once
-        playwright = Playwright.create();
-        playwrightBrowser = playwright.chromium().launch(new BrowserType.LaunchOptions()
-            .setHeadless(true)
-            .setArgs(java.util.Arrays.asList("--disable-dev-shm-usage", "--no-sandbox")));
-        context = playwrightBrowser.newContext();
     }
 
     @AfterAll
     static void cleanup() {
-        if (context != null) {
-            context.close();
-        }
-        if (playwrightBrowser != null) {
-            playwrightBrowser.close();
-        }
-        if (playwright != null) {
-            playwright.close();
-        }
         if (server != null) {
             server.close();
         }
@@ -56,8 +41,7 @@ class GameTest {
     @BeforeEach
     void createBrowser() {
         // Create new browser helper for each test
-        Page page = context.newPage();
-        browser = new Browser(page, server.getBaseUrl());
+        browser = new Browser(server.getBaseUrl());
     }
 
     @AfterEach
@@ -68,13 +52,13 @@ class GameTest {
     }
 
     @Test
-    void shouldDisplayGameTitle() {
+    void shouldDisplayGameTitle() throws Exception {
         browser.visit("/");
         assertThat(browser.getTitle()).isEqualTo("Skiller Wordle");
     }
 
     @Test
-    void shouldShowWinMessageForCorrectGuess() {
+    void shouldShowWinMessageForCorrectGuess() throws Exception {
         browser.visit("/");
         browser.clickNewGameButton();
         browser.enterGuess("whale");
@@ -82,7 +66,7 @@ class GameTest {
     }
 
     @Test
-    void shouldShowLoseMessageAndCorrectAnswerAfterSixGuesses() {
+    void shouldShowLoseMessageAndCorrectAnswerAfterSixGuesses() throws Exception {
         browser.visit("/");
         browser.clickNewGameButton();
         browser.enterGuess("about");
@@ -97,7 +81,7 @@ class GameTest {
     }
 
     @Test
-    void shouldShowErrorMessageForInvalidGuesses() {
+    void shouldShowErrorMessageForInvalidGuesses() throws Exception {
         browser.visit("/");
         browser.clickNewGameButton();
         browser.enterGuess("cat");
@@ -105,7 +89,7 @@ class GameTest {
     }
 
     @Test
-    void shouldShowColourCodedFeedbackForPreviousGuesses() {
+    void shouldShowColourCodedFeedbackForPreviousGuesses() throws Exception {
         // arrange
         browser.visit("/");
         browser.clickNewGameButton();
