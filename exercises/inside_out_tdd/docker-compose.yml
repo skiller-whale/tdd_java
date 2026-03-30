@@ -4,11 +4,11 @@ services:
   exercises:
     build: .
     volumes:
-      - ./:/java
-      - java_inside_out_gradle_cache:/java/.gradle
-      - java_inside_out_build_output:/java/build
+      - ./:/inside_out_tdd
+      - java_inside_out_gradle_cache:/inside_out_tdd/.gradle
+      - java_inside_out_build_output:/inside_out_tdd/build
       - ./attendance_id:/app/sync/attendance_id
-    working_dir: /java
+    working_dir: /inside_out_tdd
     tty: true
     command:
       - -lc

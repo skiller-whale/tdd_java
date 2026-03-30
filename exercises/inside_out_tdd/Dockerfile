@@ -1,6 +1,6 @@
 FROM gradle:8.13-jdk21
 
-ARG EXERCISES_DIR=/java
+ARG EXERCISES_DIR=/inside_out_tdd
 
 # Install Bun
 RUN apt update && apt install -y unzip

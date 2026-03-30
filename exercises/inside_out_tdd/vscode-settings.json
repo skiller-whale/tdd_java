@@ -1,0 +1,11 @@
+{
+    "files.autoSave": "off",
+    "redhat.telemetry.enabled": false,
+    "java.import.projectSelection": "automatic",
+    "java.import.gradle.version": "8.13",
+    "java.import.exclusions": [
+        "**",
+        "!**/inside_out_tdd/**"
+    ],
+    "java.compile.nullAnalysis.mode": "automatic"
+}
