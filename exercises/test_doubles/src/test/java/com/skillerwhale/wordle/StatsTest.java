@@ -13,18 +13,20 @@ import org.junit.jupiter.api.AfterAll;
 
 import static org.assertj.core.api.Assertions.*;
 
-@Disabled("TODO: Implement tests")
+import org.htmlunit.Page;
+import org.htmlunit.WebClient;
+import org.htmlunit.html.HtmlPage;
+
 class StatsTest {
     private static TestServer server;
-    private static Browser browser;
+
+    private Browser browser;
 
     @BeforeAll
     static void setup() throws Exception {
-        // Start test server on random port
         Database database = new Database();
         server = new TestServer(database);
         server.start();
-        browser = new Browser(server.getBaseUrl());
     }
 
     @AfterAll
@@ -32,6 +34,16 @@ class StatsTest {
         if (server != null) {
             server.close();
         }
+    }
+
+    @BeforeEach
+    void createBrowser() {
+        // Create new browser helper for each test
+        browser = new Browser(server.getBaseUrl());
+    }
+
+    @AfterEach
+    void closeBrowser() {
         if (browser != null) {
             browser.close();
         }
@@ -55,6 +67,7 @@ class StatsTest {
     }
 
     @Test
+    @Disabled("TODO: Implement test")
     void showsStatsAtEndOfGame() throws Exception {
         // Arrange: win and lose some games
         winGame(browser);

@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.skillerwhale'
 version = '1.0.0'
-description = 'Test doubles exercise'
+description = 'Testing at different layers exercise'
 
 repositories {
     mavenCentral()
