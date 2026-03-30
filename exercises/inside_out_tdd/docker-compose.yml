@@ -1,7 +1,25 @@
+name: java_inside_out_tdd
+
 services:
   exercises:
-    profiles: ["exercises"] # exclude from "docker-compose up"
     build: .
     volumes:
       - ./:/java
+      - java_inside_out_gradle_cache:/java/.gradle
+      - java_inside_out_build_output:/java/build
       - ./attendance_id:/app/sync/attendance_id
+    working_dir: /java
+    tty: true
+    command:
+      - -lc
+      - |
+        echo 'trap "echo ‼️ You just quit the exercises terminal.; echo To get it back run: docker compose run exercises" EXIT' >> /root/.bashrc
+        echo "To run the tests:"
+        echo "  gradle test"
+        echo "Or for watch mode:"
+        echo "  gradle test --continuous"
+        exec /bin/bash -l
+
+volumes:
+  java_inside_out_gradle_cache:
+  java_inside_out_build_output:
