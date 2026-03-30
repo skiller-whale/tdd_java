@@ -1,0 +1,7 @@
+services:
+  exercises:
+    profiles: ["exercises"] # exclude from "docker-compose up"
+    build: .
+    volumes:
+      - ./:/java
+      - ./attendance_id:/app/sync/attendance_id
