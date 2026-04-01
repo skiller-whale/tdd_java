@@ -4,10 +4,9 @@ services:
   exercises:
     build: .
     volumes:
-      - ./:/inside_out_tdd
-      - java_inside_out_gradle_cache:/inside_out_tdd/.gradle
-      - java_inside_out_build_output:/inside_out_tdd/build
-      - ./attendance_id:/app/sync/attendance_id
+      - ./src:/inside_out_tdd/src
+      - ./build.gradle:/inside_out_tdd/build.gradle
+      - ./wordle-cheat :/inside_out_tdd/wordle-cheat
     working_dir: /inside_out_tdd
     tty: true
     command:
@@ -19,7 +18,3 @@ services:
         echo "Or for watch mode:"
         echo "  gradle test --continuous"
         exec /bin/bash -l
-
-volumes:
-  java_inside_out_gradle_cache:
-  java_inside_out_build_output:

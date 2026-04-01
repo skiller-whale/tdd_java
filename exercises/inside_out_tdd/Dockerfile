@@ -1,4 +1,4 @@
-FROM gradle:8.13-jdk21
+FROM gradle:9.4.1-jdk25
 
 ARG EXERCISES_DIR=/inside_out_tdd
 
