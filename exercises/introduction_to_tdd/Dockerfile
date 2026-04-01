@@ -1,6 +1,6 @@
 FROM gradle:9.4.1-jdk25
 
-ARG EXERCISES_DIR=/inside_out_tdd
+ARG EXERCISES_DIR=/introduction_to_tdd
 
 RUN echo > /root/.bashrc
 

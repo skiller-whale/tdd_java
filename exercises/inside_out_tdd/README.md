@@ -15,5 +15,5 @@ gradle test --continuous
 ## Run wordle-cheat
 
 ```bash
-./wordle-cheat _H___ FTH RYIASKC
+./scripts/wordle-cheat _H___ FTH RYIASKC
 ```

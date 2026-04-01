@@ -2,11 +2,11 @@ services:
   exercises:
     build: .
     volumes:
-      - ./src:/introduction_to_tdd/src
-      - ./build.gradle:/introduction_to_tdd/build.gradle
-      - ./gradle.properties:/introduction_to_tdd/gradle.properties
-      - ./scripts:/introduction_to_tdd/scripts
-    working_dir: /introduction_to_tdd
+      - ./src:/<EXERCISE_DIR>/src
+      - ./build.gradle:/<EXERCISE_DIR>/build.gradle
+      - ./gradle.properties:/<EXERCISE_DIR>/gradle.properties
+      - ./scripts:/<EXERCISE_DIR>/scripts
+    working_dir: /<EXERCISE_DIR>
     tty: true
     command:
       - -lc
@@ -20,11 +20,11 @@ services:
   tests:
     build: .
     volumes:
-      - ./src:/introduction_to_tdd/src
-      - ./build.gradle:/introduction_to_tdd/build.gradle
-      - ./gradle.properties:/introduction_to_tdd/gradle.properties
-      - ./scripts:/introduction_to_tdd/scripts
-    working_dir: /introduction_to_tdd
+      - ./src:/<EXERCISE_DIR>/src
+      - ./build.gradle:/<EXERCISE_DIR>/build.gradle
+      - ./gradle.properties:/<EXERCISE_DIR>/gradle.properties
+      - ./scripts:/<EXERCISE_DIR>/scripts
+    working_dir: /<EXERCISE_DIR>
     command:
       - -c
       - gradle test --continuous --console=rich --warning-mode none

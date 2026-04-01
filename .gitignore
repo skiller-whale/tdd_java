@@ -28,3 +28,4 @@ build
 bin
 target
 !.vscode
+!utils/build

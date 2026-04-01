@@ -1,5 +1,3 @@
-package main.java;
-
 /**
  * Example Java class (for reference):
  *
