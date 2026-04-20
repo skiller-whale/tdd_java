@@ -1,0 +1,30 @@
+services:
+  exercises:
+    build: .
+    volumes:
+      - ./src:/specifying_behaviour/src
+      - ./build.gradle:/specifying_behaviour/build.gradle
+      - ./gradle.properties:/specifying_behaviour/gradle.properties
+      - ./scripts:/specifying_behaviour/scripts
+    working_dir: /specifying_behaviour
+    tty: true
+    command:
+      - -lc
+      - |
+        echo 'trap "echo ‼️ You just quit the exercises terminal.; echo To get it back run: docker compose run exercises" EXIT' >> /root/.bashrc
+        echo "To run the tests:"
+        echo "  gradle test"
+        echo "Or for watch mode:"
+        echo "  gradle test --continuous"
+        exec /bin/bash -l
+  tests:
+    build: .
+    volumes:
+      - ./src:/specifying_behaviour/src
+      - ./build.gradle:/specifying_behaviour/build.gradle
+      - ./gradle.properties:/specifying_behaviour/gradle.properties
+      - ./scripts:/specifying_behaviour/scripts
+    working_dir: /specifying_behaviour
+    command:
+      - -c
+      - gradle test --continuous --console=rich --warning-mode none
