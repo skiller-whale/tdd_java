@@ -8,5 +8,8 @@
         "!**/exercises/introduction_to_tdd"
     ],
     "java.compile.nullAnalysis.mode": "automatic",
-    "extensions.ignoreRecommendations": true
+    "extensions.ignoreRecommendations": true,
+    "activator.activateOnStart": [
+        "redhat.java"
+    ]
 }
