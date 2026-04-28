@@ -5,8 +5,11 @@
     "java.import.gradle.version": "9.4.1",
     "java.import.exclusions": [
         "**/exercises/**",
-        "!**/exercises/<EXERCISE_DIR>"
+        "!**/exercises/outside_in_tdd"
     ],
     "java.compile.nullAnalysis.mode": "automatic",
-    "extensions.ignoreRecommendations": true
+    "extensions.ignoreRecommendations": true,
+    "activator.activateOnStart": [
+        "redhat.java"
+    ]
 }

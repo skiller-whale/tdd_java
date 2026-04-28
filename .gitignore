@@ -29,3 +29,4 @@ bin
 target
 !.vscode
 !utils/build
+!gradle-wrapper.jar
