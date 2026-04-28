@@ -1,3 +1,3 @@
 #!/bin/bash
 
-gradle test
+./gradlew test
