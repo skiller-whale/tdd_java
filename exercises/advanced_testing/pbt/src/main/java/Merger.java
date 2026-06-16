@@ -2,8 +2,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Merges two already-sorted lists of integers into a single sorted list.
-//
-// There is a bug in here. Your job is to find it by writing property-based tests, then fix it.
 public class Merger {
 
     public static List<Integer> merge(List<Integer> a, List<Integer> b) {

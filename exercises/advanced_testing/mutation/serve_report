@@ -1,0 +1,4 @@
+#!/bin/sh
+cd build/reports/pitest
+echo "Serving! Click the link on the session page."
+python3 -m http.server -b 0.0.0.0 3000 > /dev/null
