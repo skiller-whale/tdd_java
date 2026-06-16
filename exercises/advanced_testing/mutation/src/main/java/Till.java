@@ -1,18 +1,5 @@
 import java.util.List;
 
-// The till for The Bun & Board bakery. It totals up an order, applies the shop's
-// discounts and delivery rules, and works out how many loyalty points the customer earns.
-//
-// During the exercise you will deliberately 'mutate' this class to test your tests,
-// then revert your changes. The behaviour it is supposed to have is:
-//
-//   * Each line costs quantity * unitPrice.
-//   * Bulk discount: 10% off a line when more than 10 of that item are bought.
-//   * Loyalty discount: members get a further 5% off the whole order.
-//   * Delivery: free when the discounted subtotal is 25.00 or more, otherwise 3.50.
-//     An empty order (subtotal of 0.00) is never charged for delivery.
-//   * Loyalty points: 1 point per whole pound of the discounted subtotal, doubled for members.
-//   * The charged total is rounded to the nearest penny.
 public class Till {
 
     private static final int BULK_THRESHOLD = 10;

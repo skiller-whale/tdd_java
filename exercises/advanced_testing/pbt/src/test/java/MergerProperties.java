@@ -7,17 +7,11 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-// Property-based tests for Merger.merge.
-//
-// Instead of hand-picking examples, we describe properties that should hold for *every* pair of
-// sorted inputs, and let jqwik generate hundreds of cases trying to break them. When a property
-// fails, jqwik shrinks the failure to the smallest counter-example it can find — read it carefully.
 public class MergerProperties {
 
-    // A worked example: the merged output should always be in non-decreasing order.
+    // Property: The merged output should always be in non-decreasing order.
     //
-    // Notice this property PASSES even though Merger has a bug. One property on its own is rarely
-    // enough — the properties you add below tell a fuller story.
+    // This currently passes.
     @Property
     void mergedOutputIsSorted(
             @ForAll List<@IntRange(min = 0, max = 100) Integer> aRaw,
@@ -35,8 +29,8 @@ public class MergerProperties {
     }
 
     // TODO: the merged list should contain every element from both inputs, so its length should
-    // equal a.size() + b.size(). Add an assertion to check that, then run `gradle test` and read
-    // the shrunk counter-example.
+    // equal a.size() + b.size().
+    // Add an assertion to check that, then run `gradle test`.
     @Property
     void mergePreservesLength(
             @ForAll List<@IntRange(min = 0, max = 100) Integer> aRaw,
@@ -50,9 +44,9 @@ public class MergerProperties {
         // TODO: assert something about merged.size()
     }
 
-    // TODO: the merged list should contain exactly the same elements as the two inputs combined
-    // (the same "multiset" — same values, same number of each). Sorting both sides and comparing
-    // is one easy way to check this. Add the assertion, run the tests, and read the shrunk case.
+    // TODO: the merged list should contain exactly the same elements as the two inputs combined. 
+    // Sorting both sides and comparing is one easy way to check this.
+    // Add an assertion and run the tests.
     @Property
     void mergePreservesAllElements(
             @ForAll List<@IntRange(min = 0, max = 100) Integer> aRaw,

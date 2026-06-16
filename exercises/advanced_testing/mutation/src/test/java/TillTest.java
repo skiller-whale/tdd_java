@@ -2,8 +2,6 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
-// This suite looks fairly thorough and is fully green, but it still leaves some important
-// behaviour untested. Your job in the exercise is to find those gaps with mutation testing.
 public class TillTest {
 
     private final Till till = new Till();
